@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-harm-watch
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && node index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+    staticPublishPath: ./client
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
